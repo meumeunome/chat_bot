@@ -1,7 +1,7 @@
 package com.pedrotlf.healthybot.activities
 
+import android.app.Dialog
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.pedrotlf.healthybot.ChatBaseActivity
 import com.pedrotlf.healthybot.R
 import com.pedrotlf.healthybot.chatLayoutManager.ChatAdapter
 import com.pedrotlf.healthybot.messageTypes.BaseMessage
@@ -17,10 +18,12 @@ import com.pedrotlf.healthybot.messageTypes.MessageSent
 import com.pedrotlf.healthybot.messageTypes.QuickReply
 import kotlinx.android.synthetic.main.activity_chat_main.*
 
-class ChatMainActivity : AppCompatActivity() {
+class ChatMainActivity : ChatBaseActivity() {
 
     private lateinit var recyclerView: RecyclerView
     lateinit var chatAdapter: ChatAdapter
+
+    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +32,15 @@ class ChatMainActivity : AppCompatActivity() {
         configureRecyclerView()
         configureInputText()
 
+        dialog = Dialog(this)
+
         receiveInitialMessages()
     }
 
-    fun insertMessageAtChat(message: BaseMessage) {
+    fun insertMessageAtChat(message: BaseMessage, scroll: Boolean = false) {
         chatAdapter.addMessage(message)
-        recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+        if (scroll)
+            recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
     }
 
     private fun configureInputText(){
@@ -47,11 +53,7 @@ class ChatMainActivity : AppCompatActivity() {
                 val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED)
 
-                insertMessageAtChat(
-                    MessageSent(
-                        text
-                    )
-                )
+                insertMessageAtChat(MessageSent(text), true)
 
                 //TODO make query
             }
@@ -63,7 +65,7 @@ class ChatMainActivity : AppCompatActivity() {
 
         val quickreplies: List<QuickReply> = listOf(
             QuickReply("Differential Diagnosis"){/*TODO*/},
-            QuickReply("Patient Note"){/*TODO*/},
+            QuickReply("Patient Note"){notePopups.showPopupNotesMain(dialog)},
             QuickReply("Drug Information"){/*TODO*/},
             QuickReply("Pill Identifier"){/*TODO*/},
             QuickReply("Medical Calculator"){/*TODO*/},

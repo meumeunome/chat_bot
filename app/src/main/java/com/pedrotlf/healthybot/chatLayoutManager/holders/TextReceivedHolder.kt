@@ -1,6 +1,7 @@
 package com.pedrotlf.healthybot.chatLayoutManager.holders
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout

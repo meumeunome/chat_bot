@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="@drawable/note_background"
+    android:paddingTop="20dp"
+    android:paddingBottom="30dp"
+    android:paddingEnd="15dp"
+    android:paddingStart="15dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Your Notes"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@id/title"
+        android:layout_above="@id/create_area">
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/create_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a New Note"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:layout_alignEnd="@id/btn_create"
+            android:layout_alignStart="@id/btn_create"
+            android:layout_below="@id/btn_create"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
