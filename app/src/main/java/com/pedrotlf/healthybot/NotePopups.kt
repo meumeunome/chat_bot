@@ -99,8 +99,6 @@ class NotePopups(private val activity: ChatBaseActivity) {
 
     private fun createAudioOnClickRecord(view: View, dialog: Dialog) {
         if (activity.checkPermission()) {
-            
-
             AudioSavePathInDevice =
                 (activity.getExternalFilesDir(null)?.absolutePath ?: "") +
                         File.separator +
