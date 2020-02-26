@@ -1,10 +1,12 @@
-package com.pedrotlf.healthybot
+package com.pedrotlf.healthybot.activities
 
 import android.content.Intent
 import android.os.Bundle
+import com.pedrotlf.healthybot.R
+import com.pedrotlf.healthybot.RegistrationRuleBaseActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
-class RegisterActivity : RegistrationRuleActivity() {
+class RegisterActivity : RegistrationRuleBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

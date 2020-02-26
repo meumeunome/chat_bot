@@ -1,5 +1,6 @@
 package com.pedrotlf.healthybot.chatLayoutManager
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.pedrotlf.healthybot.chatLayoutManager.holders.TextReceivedHolder
 import com.pedrotlf.healthybot.chatLayoutManager.holders.TextSentHolder
 import com.pedrotlf.healthybot.messageTypes.BaseMessage
 
-class ChatAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class ChatAdapter(private val activity: Activity) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     private val mMessageList: ArrayList<BaseMessage> = ArrayList()
 
@@ -22,7 +23,7 @@ class ChatAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
             Constants.MESSAGE_TYPE_RECEIVED -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_message_received, parent, false)
-                TextReceivedHolder(view)
+                TextReceivedHolder(view, activity)
             }
 
             else -> { /*MessageType.SENT*/

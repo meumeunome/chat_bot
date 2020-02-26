@@ -13,19 +13,19 @@
         tools:ignore="GoogleAppIndexingWarning">
         <!-- ATTENTION OVER IGNORE -->
         <activity
-            android:name="com.pedrotlf.healthybot.ChatMainActivity"
+            android:name="com.pedrotlf.healthybot.activities.ChatMainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.pedrotlf.healthybot.RegisterActivity"
+            android:name="com.pedrotlf.healthybot.activities.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.pedrotlf.healthybot.LoginActivity"
+            android:name="com.pedrotlf.healthybot.activities.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.pedrotlf.healthybot.MainActivity"
+            android:name="com.pedrotlf.healthybot.activities.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

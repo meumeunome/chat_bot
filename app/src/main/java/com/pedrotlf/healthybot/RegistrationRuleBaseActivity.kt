@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 @SuppressLint("Registered")
-open class RegistrationRuleActivity : AppCompatActivity() {
+open class RegistrationRuleBaseActivity : AppCompatActivity() {
     protected fun usernameValidator(string: String): Boolean{
         val message: String = when{
             string.isEmpty() -> {

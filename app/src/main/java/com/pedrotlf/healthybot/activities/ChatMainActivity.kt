@@ -1,4 +1,4 @@
-package com.pedrotlf.healthybot
+package com.pedrotlf.healthybot.activities
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +9,12 @@ import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.pedrotlf.healthybot.R
 import com.pedrotlf.healthybot.chatLayoutManager.ChatAdapter
 import com.pedrotlf.healthybot.messageTypes.BaseMessage
 import com.pedrotlf.healthybot.messageTypes.MessageReceivedText
 import com.pedrotlf.healthybot.messageTypes.MessageSent
+import com.pedrotlf.healthybot.messageTypes.QuickReply
 import kotlinx.android.synthetic.main.activity_chat_main.*
 
 class ChatMainActivity : AppCompatActivity() {
@@ -58,11 +60,23 @@ class ChatMainActivity : AppCompatActivity() {
 
     private fun receiveInitialMessages(){
         insertMessageAtChat(MessageReceivedText("Hi, user! Thanks for logging in. My name is Healthy Bot and I'm here to help you!"))
+
+        val quickreplies: List<QuickReply> = listOf(
+            QuickReply("Differential Diagnosis"){/*TODO*/},
+            QuickReply("Patient Note"){/*TODO*/},
+            QuickReply("Drug Information"){/*TODO*/},
+            QuickReply("Pill Identifier"){/*TODO*/},
+            QuickReply("Medical Calculator"){/*TODO*/},
+            QuickReply("Laboratory Medicine"){/*TODO*/},
+            QuickReply("Disease Library"){/*TODO*/}
+        )
+
+        insertMessageAtChat(MessageReceivedText("You can ask me anything about the following content:", quickreplies))
     }
 
     private fun configureRecyclerView() {
         recyclerView = findViewById(R.id.bot_recycler_view)
-        chatAdapter = ChatAdapter()
+        chatAdapter = ChatAdapter(this)
 
         recyclerView.adapter = chatAdapter
 

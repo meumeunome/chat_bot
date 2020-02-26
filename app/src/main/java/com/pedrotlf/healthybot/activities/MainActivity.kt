@@ -1,8 +1,9 @@
-package com.pedrotlf.healthybot
+package com.pedrotlf.healthybot.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.pedrotlf.healthybot.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
