@@ -23,11 +23,17 @@ class RegisterActivity : RegistrationRuleActivity() {
             val user: String = username.text.toString()
             val pass: String = password.text.toString()
             val confirmPass: String = confirm_password.text.toString()
+            val email: String = email.text.toString()
+            val birth: String = birth_date.text.toString()
 
             if( usernameValidator(user) &&
-                passwordValidator(pass, confirmPass)
+                passwordValidator(pass, confirmPass) &&
+                emailValidator(email) &&
+                birthdayValidator(birth)
             ){
                 //registerRequest()
+                startActivity(Intent(this, ChatMainActivity::class.java))
+                finish()
             }
         }
     }

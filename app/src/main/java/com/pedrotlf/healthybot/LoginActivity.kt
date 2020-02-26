@@ -27,6 +27,8 @@ class LoginActivity : RegistrationRuleActivity() {
                 passwordValidator(pass)
             ){
                 //loginRequest()
+                startActivity(Intent(this, ChatMainActivity::class.java))
+                finish()
             }
         }
     }

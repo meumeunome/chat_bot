@@ -9,4 +9,5 @@
 
     <color name="textColor">#616161</color>
     <color name="textColorDiscreet">#919191</color>
+    <color name="textColorAtChat">@android:color/black</color>
 </resources>

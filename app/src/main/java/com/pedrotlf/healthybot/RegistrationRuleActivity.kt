@@ -24,7 +24,7 @@ open class RegistrationRuleActivity : AppCompatActivity() {
         val message: String = when{
             string.isEmpty() -> "Password field is empty."
 
-            confirm != null && confirm != string -> "Password and Confirm Password fields are different."
+            confirm != null && confirm != string -> "Password and Confirm Password must be the same."
 
             else -> ""
         }
