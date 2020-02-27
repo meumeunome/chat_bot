@@ -111,6 +111,7 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
 
     private fun stopPlayingCurrent(){
         audioPlayer?.stop()
+        audioPlayer?.reset()
         audioPlayer?.release()
         audioPlayer = null
 
