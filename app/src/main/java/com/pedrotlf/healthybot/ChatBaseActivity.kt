@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.pedrotlf.healthybot.notes.NotePopupMain
 
 
 @SuppressLint("Registered")
@@ -16,12 +17,12 @@ open class ChatBaseActivity : AppCompatActivity() {
 
     protected val RequestPermissionCode: Int = 1
 
-    protected lateinit var notePopups: NotePopups
+    protected lateinit var notePopup: NotePopupMain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        notePopups = NotePopups(this)
+        notePopup = NotePopupMain(this)
     }
 
     fun requestPermission() {

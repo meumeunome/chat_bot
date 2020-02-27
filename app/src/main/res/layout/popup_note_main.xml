@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
     android:background="@drawable/note_background"
     android:paddingTop="20dp"
-    android:paddingBottom="30dp"
-    android:paddingEnd="15dp"
-    android:paddingStart="15dp">
+    android:paddingBottom="30dp">
 
     <TextView
         android:id="@+id/title"
@@ -26,6 +27,15 @@
         android:layout_marginBottom="15dp"
         android:layout_below="@id/title"
         android:layout_above="@id/create_area">
+
+        <LinearLayout
+            android:id="@+id/notes_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true">
+
+        </LinearLayout>
 
     </ScrollView>
 

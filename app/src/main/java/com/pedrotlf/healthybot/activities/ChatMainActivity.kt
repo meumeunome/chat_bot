@@ -65,7 +65,7 @@ class ChatMainActivity : ChatBaseActivity() {
 
         val quickreplies: List<QuickReply> = listOf(
             QuickReply("Differential Diagnosis"){/*TODO*/},
-            QuickReply("Patient Note"){notePopups.showPopupNotesMain(dialog)},
+            QuickReply("Patient Note"){notePopup.showPopupNotesMain(dialog)},
             QuickReply("Drug Information"){/*TODO*/},
             QuickReply("Pill Identifier"){/*TODO*/},
             QuickReply("Medical Calculator"){/*TODO*/},
