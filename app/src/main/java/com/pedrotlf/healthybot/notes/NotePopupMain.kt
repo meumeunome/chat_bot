@@ -60,8 +60,9 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
 
                 if (files != null){
                     for (file in files){
+                        Log.i("audioFileFound", file.name)
                         when{
-                            !file.name.contains(".3gp") -> addAudioToList(file, list)
+                            file.name.contains(".3gp") -> addAudioToList(file, list)
                         }
                     }
                 } else {
@@ -72,8 +73,6 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
     }
 
     private fun addAudioToList(file: File, list: LinearLayout) {
-        Log.i("audioFileFound", file.name)
-
         val view = LayoutInflater.from(activity).inflate(R.layout.item_note_saved, list, false)
 
         val title: TextView = view.findViewById(R.id.title)
