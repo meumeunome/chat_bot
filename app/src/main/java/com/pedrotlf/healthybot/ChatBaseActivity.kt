@@ -45,6 +45,22 @@ open class ChatBaseActivity : AppCompatActivity() {
                 recordAudioPermission == PackageManager.PERMISSION_GRANTED
     }
 
+    fun requestStoragePermission() {
+        ActivityCompat.requestPermissions(this,
+            arrayOf(WRITE_EXTERNAL_STORAGE),
+            RequestPermissionCode
+        )
+    }
+
+    fun checkStoragePermission(): Boolean {
+        val storagePermission = ContextCompat.checkSelfPermission(
+            applicationContext,
+            WRITE_EXTERNAL_STORAGE
+        )
+
+        return storagePermission == PackageManager.PERMISSION_GRANTED
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

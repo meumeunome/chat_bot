@@ -7,13 +7,14 @@ import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.pedrotlf.healthybot.ChatBaseActivity
 import com.pedrotlf.healthybot.R
-import java.io.File
-import java.io.IOException
+import com.pedrotlf.healthybot.Utils
+import java.io.*
 
 
 class NotePopupMain(private val activity: ChatBaseActivity) {
@@ -28,7 +29,10 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
     private val createPopup: NotePopupCreate =
         NotePopupCreate(activity, this)
 
-    fun showPopupNotesMain(dialog: Dialog){
+    private lateinit var dialog: Dialog
+
+    fun showPopupNotesMain(d: Dialog){
+        dialog = d
         dialog.setContentView(R.layout.popup_note_main)
 
         val btnCreate: TextView = dialog.findViewById(R.id.btn_create)
@@ -51,33 +55,61 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
 
     private fun populateList(list: LinearLayout) {
         list.removeAllViews()
-        val path: String? = activity.getExternalFilesDir(null)?.absolutePath
+        val path: String = activity.filesDir.absolutePath
 
-        if (path != null){
-            val directory = File(path)
-            if (directory.exists()){
-                val files = directory.listFiles()
+        Log.i("fileFindingAt", path)
 
-                if (files != null){
-                    for (file in files){
-                        Log.i("audioFileFound", file.name)
-                        when{
-                            file.name.contains(".3gp") -> addAudioToList(file, list)
-                        }
+        val directory = File(path)
+        if (directory.exists()){
+            val files = directory.listFiles()
+
+            if (files != null){
+                for (file in files){
+                    Log.i("audioFileFound", file.name)
+                    when{
+                        file.name.contains(".3gp") -> addAudioToList(file, list)
+                        file.name.contains(".txt") -> addTextToList(file, list)
                     }
-                } else {
-                    Log.i("fileFound", "NO FILE FOUND")
                 }
+            } else {
+                Log.i("fileFound", "NO FILE FOUND")
             }
         }
     }
 
+    private fun addTextToList(file: File, list: LinearLayout) {
+        val view = LayoutInflater.from(activity).inflate(R.layout.item_note_text_saved, list, false)
+
+        val title: TextView = view.findViewById(R.id.title)
+        val previewText: TextView = view.findViewById(R.id.preview_text)
+        val btnEdit: View = view.findViewById(R.id.btn_edit)
+        val btnDelete: View = view.findViewById(R.id.btn_delete)
+
+        btnEdit.setOnClickListener {
+            stopPlayingCurrent()
+            createPopup.editTextNote(dialog, file)
+        }
+
+        btnDelete.setOnClickListener {
+            stopPlayingCurrent()
+            deleteFile(file.absolutePath)
+            list.removeView(view)
+        }
+
+        title.text = file.name.removeSuffix(".txt").replace("_", " ").replace(";", ":")
+
+        previewText.text = readFileAsString(file.name)
+
+        list.addView(view)
+    }
+
     private fun addAudioToList(file: File, list: LinearLayout) {
-        val view = LayoutInflater.from(activity).inflate(R.layout.item_note_saved, list, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.item_note_audio_saved, list, false)
 
         val title: TextView = view.findViewById(R.id.title)
         val btnPlay: View = view.findViewById(R.id.btn_play)
         val btnStop: View = view.findViewById(R.id.btn_stop)
+        val btnEdit: View = view.findViewById(R.id.btn_edit)
         val btnDelete: View = view.findViewById(R.id.btn_delete)
 
         btnPlay.setOnClickListener {
@@ -98,6 +130,10 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
             stopPlayingCurrent()
         }
 
+        btnEdit.setOnClickListener {
+            showPopupNotesEditTitle(file)
+        }
+
         btnDelete.setOnClickListener {
             stopPlayingCurrent()
             deleteFile(file.absolutePath)
@@ -107,6 +143,43 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
         title.text = file.name.removeSuffix(".3gp").replace("_", " ").replace(";", ":")
 
         list.addView(view)
+    }
+
+    private fun showPopupNotesEditTitle(file: File){
+        dialog.setContentView(R.layout.popup_note_edit_title)
+
+        val title: EditText = dialog.findViewById(R.id.title)
+        val btnCancel: View = dialog.findViewById(R.id.btn_cancel)
+        val btnSave: View = dialog.findViewById(R.id.btn_save)
+
+        title.setText(file.name.removeSuffix(".3gp"))
+
+        btnCancel.setOnClickListener {
+            showPopupNotesMain(dialog)
+        }
+        
+        btnSave.setOnClickListener {
+            when{
+                Utils.containsWordFromList(title.text.toString(), listOf("\\", "/", ":", "*", "?", "\"", "<", ">", "|")) -> {
+                    Toast.makeText(activity, "A file name can't contain any of the following characters:\n\\ / : * ? \" < > |", Toast.LENGTH_SHORT).show()
+                }
+
+                title.text.toString().isEmpty() -> {
+                    Toast.makeText(activity, "File name can't be empty", Toast.LENGTH_SHORT).show()
+                }
+
+                title.text.toString().contains( "\n") -> {
+                    Toast.makeText(activity, "A file name can't contain line breaks.", Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {
+                    val dir: File = activity.filesDir
+                    val to = File(dir, title.text.toString() + ".3gp")
+                    file.renameTo(to)
+                    showPopupNotesMain(dialog)
+                }
+            }
+        }
     }
 
     private fun stopPlayingCurrent(){
@@ -122,11 +195,11 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
         playingPlayLayout = null
     }
 
-    private fun deleteFile(path: String){
+    fun deleteFile(path: String){
         val fdelete = File(path)
         if (fdelete.exists()) {
             if (fdelete.delete()) {
-                Toast.makeText(activity, "Audio deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Note deleted!", Toast.LENGTH_SHORT).show()
                 Log.i("deleteFile", "file Deleted: $path")
             } else {
                 Log.i("deleteFile", "file not Deleted: $path")
@@ -151,5 +224,20 @@ class NotePopupMain(private val activity: ChatBaseActivity) {
         }
 
         audioPlayer?.start()
+    }
+
+    fun readFileAsString(fileName: String): String? {
+        val stringBuilder = StringBuilder()
+        var line: String?
+        val buffReader: BufferedReader?
+        try {
+            buffReader = BufferedReader(FileReader(File(activity.filesDir, fileName)))
+            while (buffReader.readLine().also { line = it } != null) stringBuilder.append(line)
+        } catch (e: FileNotFoundException) {
+            Log.e("Exception", "File read failed: $e")
+        } catch (e: IOException) {
+            Log.e("Exception", "File read failed: $e")
+        }
+        return stringBuilder.toString()
     }
 }

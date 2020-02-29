@@ -33,6 +33,10 @@ class NotePopupCreateAudio(private val activity: ChatBaseActivity, private val m
             createAudioOnClickRecord(it, dialog)
         }
 
+        dialog.setOnDismissListener {
+            mainPopup?.showPopupNotesMain(Dialog(activity))
+        }
+
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
@@ -96,7 +100,7 @@ class NotePopupCreateAudio(private val activity: ChatBaseActivity, private val m
             val currentDateandTime: String = sdf.format(Date())
 
             AudioSavePathInDevice =
-                (activity.getExternalFilesDir(null)?.absolutePath ?: "") +
+                (activity.filesDir.absolutePath) +
                         File.separator +
                         "Voice_-_" +
                         currentDateandTime +
